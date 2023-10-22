@@ -1,5 +1,6 @@
 import java.util.Stack;
 import java.util.Scanner;
+import java.lang.Math;
 
 public class ConvertPostfix {
     public static void main(String[] args) {
@@ -8,10 +9,12 @@ public class ConvertPostfix {
         String infix = scan.nextLine();
         Convert convert = new Convert(infix);
 
-        String result = convert.convertPostfix();
+        String postfix = convert.convertPostfix();
 
+        System.out.println(postfix);
+
+        double result = convert.evaluateExpression(postfix);
         System.out.println(result);
-
         scan.close();
     }
 }
@@ -19,6 +22,7 @@ public class ConvertPostfix {
 class Convert {
     private StringBuilder nResult = new StringBuilder();
     private Stack<Character> operator = new Stack<>();
+    private Stack<String> operand = new Stack<>();
     String passed;
 
     public Convert(String passed) {
@@ -60,7 +64,43 @@ class Convert {
             nResult.append(operator.pop()).append(" ");
         }
 
-        return nResult.toString();
+        String result = nResult.toString();
+        return result;
+    }
+    double evaluateExpression(String expression){
+        double result = 0;
+        String[] token = expression.split(" ");
+        
+        for (int i = 0; i < token.length; i++){
+            if (token[i].equals("+") || token[i].equals("-") || token[i].equals("/") || token[i].equals("*") || token[i].equals("^")) {
+                double operand2 = Double.parseDouble(operand.pop());
+                double operand1 = Double.parseDouble(operand.pop());
+
+                switch (token[i]) {
+                    case "+":
+                        result = operand1 + operand2;
+                        break;
+                    case "-":
+                        result = operand1 - operand2;
+                        break;
+                    case "*":
+                        result = operand1 * operand2;
+                        break;
+                    case "/":
+                        result = operand1 / operand2;
+                        break;
+                }
+            operand.push(String.valueOf(result));
+            }
+            else {
+                operand.push(token[i]);
+            }
+        }
+        result = Double.parseDouble(operand.pop());
+        return result;
+    }
+    boolean isOperator(String c) {
+        return c == "+" || c == "-" || c == "/" || c == "*" || c == "^";
     }
 
     int checkPrecedence(char operator) {
