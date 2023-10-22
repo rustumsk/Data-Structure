@@ -99,9 +99,6 @@ class Convert {
         result = Double.parseDouble(operand.pop());
         return result;
     }
-    boolean isOperator(String c) {
-        return c == "+" || c == "-" || c == "/" || c == "*" || c == "^";
-    }
 
     int checkPrecedence(char operator) {
         switch (operator) {
