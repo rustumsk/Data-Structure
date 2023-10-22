@@ -73,8 +73,8 @@ class Convert {
         
         for (int i = 0; i < token.length; i++){
             if (token[i].equals("+") || token[i].equals("-") || token[i].equals("/") || token[i].equals("*") || token[i].equals("^")) {
-                double operand2 = Double.parseDouble(operand.pop());
                 double operand1 = Double.parseDouble(operand.pop());
+                double operand2 = Double.parseDouble(operand.pop());
 
                 switch (token[i]) {
                     case "+":
@@ -88,6 +88,9 @@ class Convert {
                         break;
                     case "/":
                         result = operand1 / operand2;
+                        break;
+                    case "^": 
+                        result = Math.pow(operand2, operand1);
                         break;
                 }
             operand.push(String.valueOf(result));
