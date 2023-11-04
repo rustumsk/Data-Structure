@@ -11,10 +11,10 @@ public class ConvertPostfix {
 
         String postfix = convert.convertPostfix();
 
-        System.out.println(postfix);
+        System.out.println("postfix expression: " + postfix);
 
         double result = convert.evaluateExpression(postfix);
-        System.out.println(result);
+        System.out.println("evaluated postfix expression : " +result);
         scan.close();
     }
 }
