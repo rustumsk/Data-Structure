@@ -87,7 +87,7 @@ class Convert {
                         result = operand1 * operand2;
                         break;
                     case "/":
-                        result = operand1 / operand2;
+                        result = operand2 / operand1;
                         break;
                     case "^": 
                         result = Math.pow(operand2, operand1);
