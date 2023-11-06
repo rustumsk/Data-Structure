@@ -5,16 +5,28 @@ import java.lang.Math;
 public class ConvertPostfix {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Enter infix to convert to postfix(without spaces! example: (1+2-3)): ");
-        String infix = scan.nextLine();
-        Convert convert = new Convert(infix);
 
-        String postfix = convert.convertPostfix();
+        int i = 0;
+        while(i == 0){
+            try{
+                System.out.print("Enter infix to convert to postfix(without spaces! example: (1+2-3)): ");
+                String infix = scan.nextLine();
+                Convert convert = new Convert(infix);
 
-        System.out.println(postfix);
+                String postfix = convert.convertPostfix();
 
-        double result = convert.evaluateExpression(postfix);
-        System.out.println(result);
+                System.out.println(postfix);
+                
+
+                double result = convert.evaluateExpression(postfix);
+                System.out.println(result);
+            }
+            catch(NumberFormatException e){
+                System.out.println("Goodbye!");
+                i = 1;
+            }
+        }
+
         scan.close();
     }
 }
@@ -41,13 +53,13 @@ class Convert {
                 }
                 nResult.append(multi).append(" ");;
                 i--; // Decrement i to revisit the operator character
-            } else if (c == '(') { //check if there is a parenthesis
-                operator.push(c);
-            } else if (c == ')') {
-                while (operator.peek() != '(') { //if it encounters a closing parenthisis it appends all
-                    nResult.append(operator.pop()).append(" ");
+            } else if (c == '(') { //check if there is an opening parenthesis
+                operator.push(c); // if there is then push it to the operator stack
+            } else if (c == ')') {//check if there is a closing parenthesis
+                while (operator.peek() != '(') { //if its not an opening parenthesis
+                    nResult.append(operator.pop()).append(" ");// append the operators on the result
                 }
-                operator.pop();
+                operator.pop();//pop the opening parenthesis
             } else {
                 if (operator.isEmpty() || operator.peek() == '(') {
                     operator.push(c);
@@ -72,11 +84,12 @@ class Convert {
         String[] token = expression.split(" ");
         
         for (int i = 0; i < token.length; i++){
-            if (token[i].equals("+") || token[i].equals("-") || token[i].equals("/") || token[i].equals("*") || token[i].equals("^")) {
-                double operand1 = Double.parseDouble(operand.pop());
+            if (token[i].equals("+") || token[i].equals("-") || token[i].equals("/") || token[i].equals("*") || token[i].equals("^")) {//this checks if the token is an operator
+                double operand1 = Double.parseDouble(operand.pop());//if its an operator, pop the operand
                 double operand2 = Double.parseDouble(operand.pop());
+                                                                    
 
-                switch (token[i]) {
+                switch (token[i]) { //this evaluates the expression.
                     case "+":
                         result = operand1 + operand2;
                         break;
@@ -87,19 +100,19 @@ class Convert {
                         result = operand1 * operand2;
                         break;
                     case "/":
-                        result = operand1 / operand2;
+                        result = operand2 / operand1;
                         break;
                     case "^": 
                         result = Math.pow(operand2, operand1);
                         break;
                 }
-            operand.push(String.valueOf(result));
+            operand.push(String.valueOf(result)); // this adds the resulting evaluated expression into the operand stack, until the loop is done.
             }
             else {
-                operand.push(token[i]);
+                operand.push(token[i]);// if the token is not an operator, then push the token into operand stack
             }
         }
-        result = Double.parseDouble(operand.pop());
+        result = Double.parseDouble(operand.pop()); //this parses the result into double after the loop is done, because the expression is now evaluated.
         return result;
     }
 
