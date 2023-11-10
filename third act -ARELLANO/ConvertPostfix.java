@@ -1,6 +1,7 @@
 import java.util.Stack;
 import java.util.Scanner;
 import java.lang.Math;
+import java.util.ArrayList;
 
 public class ConvertPostfix {
     public static void main(String[] args) {
@@ -15,11 +16,10 @@ public class ConvertPostfix {
 
                 String postfix = convert.convertPostfix();
 
-                System.out.println(postfix);
-                
+                System.out.println("Postfix: "+ postfix);
 
                 double result = convert.evaluateExpression(postfix);
-                System.out.println(result);
+                System.out.println("Result: "+result);
             }
             catch(NumberFormatException e){
                 System.out.println("Goodbye!");
@@ -34,6 +34,8 @@ public class ConvertPostfix {
 class Convert {
     private StringBuilder nResult = new StringBuilder();
     private Stack<Character> operator = new Stack<>();
+    public static ArrayList<String>express = new ArrayList<>();
+    StringBuilder tempo = new StringBuilder();
     private Stack<String> operand = new Stack<>();
     String passed;
 
@@ -85,9 +87,12 @@ class Convert {
         
         for (int i = 0; i < token.length; i++){
             if (token[i].equals("+") || token[i].equals("-") || token[i].equals("/") || token[i].equals("*") || token[i].equals("^")) {//this checks if the token is an operator
-                double operand1 = Double.parseDouble(operand.pop());//if its an operator, pop the operand
-                double operand2 = Double.parseDouble(operand.pop());
-                                                                    
+                operand.push(token[i]);
+                System.out.println(operand);
+                operand.pop();
+                double operand2 = Double.parseDouble(operand.pop());//if its an operator, pop the operand
+                double operand1 = Double.parseDouble(operand.pop());
+                
 
                 switch (token[i]) { //this evaluates the expression.
                     case "+":
