@@ -87,9 +87,9 @@ class Convert {
         
         for (int i = 0; i < token.length; i++){
             if (token[i].equals("+") || token[i].equals("-") || token[i].equals("/") || token[i].equals("*") || token[i].equals("^")) {//this checks if the token is an operator
-                operand.push(token[i]);
-                System.out.println(operand);
-                operand.pop();
+                operand.push(token[i]);//this pushes the operator just so i can print it on step by step operation
+                System.out.println(operand);//printing the stack 
+                operand.pop();//popping the operator before its evaluated
                 double operand2 = Double.parseDouble(operand.pop());//if its an operator, pop the operand
                 double operand1 = Double.parseDouble(operand.pop());
                 
