@@ -62,8 +62,20 @@ class Convert {
                     nResult.append(operator.pop()).append(" ");// append the operators on the result
                 }
                 operator.pop();//pop the opening parenthesis
-            } else {
-                if (operator.isEmpty() || operator.peek() == '(') {
+            }
+            else {
+                if (c == '-' && Character.isDigit(passed.charAt(i + 1))) {
+                    StringBuilder nMulti = new StringBuilder();
+                    nMulti.append(c);
+                    i++;
+                    while (i < passed.length() && Character.isDigit(passed.charAt(i))) {
+                        nMulti.append(passed.charAt(i));
+                        i++;
+                    }
+                    nResult.append(nMulti.toString()).append(" ");
+                    i--; // Decrement i to revisit the operator character
+                }
+                else if (operator.isEmpty() || operator.peek() == '(') {
                     operator.push(c);
                 } else {
                     while (!operator.isEmpty() && checkPrecedence(c) <= checkPrecedence(operator.peek())) {
